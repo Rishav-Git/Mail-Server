@@ -556,6 +556,14 @@ def detail_email(inbox_item_list, index, mail, label_name, length):
 
 # PROGRAM START
 
+
+# REMOVING THE FOLDER WHICH CONTAINS FILES WHICH ARE USED TO OPEN MESSAGE BODY        
+if os.path.exists(os.path.join(os.getcwd(), 'openemails')):
+    shutil.rmtree(os.path.join(os.getcwd(), 'openemails'))
+
+
+
+
 # USER LOGIN AND AUTHENTICATION
 
 while True:
@@ -580,7 +588,6 @@ while True:
     
     except imaplib.IMAP4.error:
         print("YOUR EMAIL ID AND PASSWORD DID NOT MATCH. LOGIN FAILED! ENTER YOUR CREDENTIALS AGAIN.")
-# REMOVING THE FOLDER WHICH CONTAINS FILES WHICH ARE USED TO OPEN MESSAGE BODY        
-shutil.rmtree(os.path.join(os.getcwd(), 'openemails'))        
+       
 
 
