@@ -36,7 +36,7 @@ def main_menu():
         ch = input()
         if ch == '1':
             to=''
-            sendemail(to)
+            sendemail()
         elif ch == '2':
             mail = imaplib.IMAP4_SSL("imap.gmail.com")     
             mail.login(username,pswd)
@@ -61,8 +61,8 @@ def dialog():
 
 # FUNCTION TO SEND EMAIL USING sendEmail API
 
-def sendemail(to):
-    a=[r'C:\project\sendEmail.exe']
+def sendemail():
+    a=[os.path.join(os.getcwd(),'sendEmail.exe')]
     a.append('-f')
     a.append(username)
     a.append('-xu')
@@ -74,15 +74,13 @@ def sendemail(to):
     
     a.append('-t')
     while True:
-        if to == '':
-            print('')
-            print("ENTER RECIPIENT'S EMAIL ADDRESS  ", end='')
-            a.append(input())
-            print("ADD MORE RECIPIENTS? (y/n): ", end='')
-            if input() == 'n':
-                break
-        else:
-            a.append(to)
+        print('')
+        print("ENTER RECIPIENT'S EMAIL ADDRESS  ", end='')
+        a.append(input())
+        print("ADD MORE RECIPIENTS? (y/n): ", end='')
+        if input() == 'n':
+            break
+
     a.append('-u')
     print('')
     print("ENTER SUBJECT: ", end='')
@@ -93,13 +91,13 @@ def sendemail(to):
     print('')
     print("WRITE YOUR MESSAGE. SAVE IT AND CLOSE THE EDITOR.")
     time.sleep(1)
-    Path('mail.txt').touch()
-    p = os.path.join(os.getcwd(), 'mail.txt')
+    Path('mail-body.txt').touch()
+    p = os.path.join(os.getcwd(), 'mail-body.txt')
     os.system(p)
-    with open("mail.txt") as f:
+    with open("mail-body.txt") as f:
         file_content = f.read().rstrip("\n")
     a.append(file_content)
-    os.remove("mail.txt")
+    os.remove("mail-body.txt")
     print('')
     print("MESSAGE BODY:")
     print('')
@@ -149,7 +147,7 @@ def sendemail(to):
             print('')
             print("SENDING EMAIL ...")
             subprocess.call(a)
-            menu2()
+            main_menu()
             break
         elif ch2 == '2':
             b=a
@@ -163,7 +161,7 @@ def sendemail(to):
             print("ENTER TIME IN THE FOLLOWING FORMAT: HH:MM:SS")
             print("ENTER TIME: ", end='')
             t=input()
-            dt = d + " "+t
+            dt = d + " " + t
             print("")
             print("YOUR EMAIL WILL BE SENT ON: "+ dt)
             print("")
@@ -503,7 +501,7 @@ def detail_email(inbox_item_list, index, mail, label_name, length):
                 break
             elif choice == 'y':
                 
-                save_path=r'C:\Users\PC\Downloads'
+                save_path=r'C:\Users\Rishav\Downloads'
                 if not os.path.exists(save_path):
                     os.makedirs(save_path)
             
@@ -523,7 +521,7 @@ def detail_email(inbox_item_list, index, mail, label_name, length):
         print('')
         print("1. SAVE EMAIL MESSAGE TO THIS PC")
         print("2. BACK TO LABEL SELECTION TO VIEW EMAILS")
-        print("3. BACK TO " + label_name + "EMAILS")
+        print("3. BACK TO " + label_name + " EMAILS")
         print("4. MAIN MENU")
         print("5. SIGN OUT AND EXIT")
         print("ENTER CORRESPONDING INDEX OF YOUR CHOICE:", end='')
@@ -531,7 +529,7 @@ def detail_email(inbox_item_list, index, mail, label_name, length):
    
         if c2 == '1':
             # SAVE EMAIL MESSAGE AND ATTACHMENTS
-           save_path= os.path.join(r'C:\Users\PC\Downloads','emails',email_message['Subject'])
+           save_path= os.path.join(r'C:\Users\Rishav\Downloads','emails')
            if not os.path.exists(save_path):
                os.makedirs(save_path)
             
